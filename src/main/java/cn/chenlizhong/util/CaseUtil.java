@@ -2,12 +2,10 @@ package cn.chenlizhong.util;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Objects;
-
 /**
  * @author : lizhong.chen
  * @version :
- *          Descr : TODO
+ *          Descr : 类型转换工具
  * @since : 15/12/3 上午12:07
  */
 public final class CaseUtil {
@@ -63,6 +61,95 @@ public final class CaseUtil {
             }
         }
         return doubleValue;
+    }
+
+    /**
+     * 转为long型
+     *
+     * @param obj
+     * @return
+     */
+    public static long caseLong(Object obj) {
+        return caseLong(obj, 0);
+    }
+
+    /**
+     * 转为long型(提供默认值)
+     *
+     * @param obj
+     * @param defaultValue
+     * @return
+     */
+    public static long caseLong(Object obj, long defaultValue) {
+        long longValue = defaultValue;
+        if (null != obj) {
+            String strValue = caseString(obj);
+            if (StringUtils.isNoneEmpty(strValue)) {
+                try {
+                    longValue = Long.parseLong(strValue);
+                } catch (NumberFormatException e) {
+                    longValue = defaultValue;
+                }
+            }
+        }
+        return longValue;
+    }
+
+    /**
+     * 转为int型
+     *
+     * @param obj
+     * @return
+     */
+    public static int caseInt(Object obj) {
+        return caseInt(obj, 0);
+    }
+
+    /**
+     * 转为int型(提供默认值)
+     *
+     * @param obj
+     * @param defaultValue
+     * @return
+     */
+    public static int caseInt(Object obj, int defaultValue) {
+        long intValue = defaultValue;
+        if (null != obj) {
+            String strValue = caseString(obj);
+            if (StringUtils.isNotEmpty(strValue)) {
+                try {
+                    intValue = Integer.valueOf(strValue);
+                } catch (NumberFormatException e) {
+                    intValue = defaultValue;
+                }
+            }
+        }
+        return defaultValue;
+    }
+
+    /**
+     * 转为boolean型
+     *
+     * @param obj
+     * @return
+     */
+    public static boolean caseBoolean(Object obj) {
+        return caseBoolean(obj, false);
+    }
+
+    /**
+     * 转为boolean型(提供默认值)
+     *
+     * @param obj
+     * @param defaultValue
+     * @return
+     */
+    public static boolean caseBoolean(Object obj, boolean defaultValue) {
+        boolean booleanValue = defaultValue;
+        if (null != obj) {
+            booleanValue = Boolean.parseBoolean(caseString(obj));
+        }
+        return booleanValue;
     }
 
 }
