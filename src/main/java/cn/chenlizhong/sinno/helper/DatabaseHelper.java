@@ -1,6 +1,6 @@
-package cn.chenlizhong.helper;
+package cn.chenlizhong.sinno.helper;
 
-import cn.chenlizhong.util.PropsUtil;
+import cn.chenlizhong.sinno.util.PropsUtil;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.commons.dbutils.QueryRunner;
@@ -15,11 +15,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @author : lizhong.chen
@@ -165,14 +162,78 @@ public final class DatabaseHelper {
         return rows;
     }
 
+    /**
+     * 插入实体
+     *
+     * @param entityClass
+     * @param fieldMap
+     * @param <T>
+     * @return
+     */
     public static <T> boolean insertEntity(Class<T> entityClass, Map<String, Object> fieldMap) {
         if (MapUtils.isEmpty(fieldMap)) {
             LOG.error("can not insert entity:field is empty");
             return false;
         }
+        String sql = "INSERT INTO " + getTableName(entityClass);
+        StringBuilder columns = new StringBuilder("(");
+        StringBuilder values = new StringBuilder("(");
+        Set<String> fieldNames = fieldMap.keySet();
+        for (String fieldName : fieldNames) {
+            columns.append(fieldName).append(", ");
+            values.append("?, ");
+        }
+        columns.replace(columns.lastIndexOf(", "), columns.length(), ")");
+        values.replace(values.lastIndexOf(", "), values.length(), ")");
+        sql += columns + " VALUES " + values;
+
+        Object[] params = fieldMap.values().toArray();
 
 
-        return true;
+        return executeUpdate(sql, params) == 1;
+    }
+
+    /**
+     * 更新实体
+     *
+     * @param entityClass
+     * @param id
+     * @param fieldMap
+     * @param <T>
+     * @return
+     */
+    public static <T> boolean updateEntity(Class<T> entityClass, long id, Map<String, Object> fieldMap) {
+
+        if (MapUtils.isEmpty(fieldMap)) {
+            LOG.error("can not update entity:fieldMap is empty");
+            return false;
+        }
+        String sql = "UPDATE " + getTableName(entityClass) + " SET ";
+        StringBuilder columns = new StringBuilder();
+        Set<String> fieldNames = fieldMap.keySet();
+        for (String fieldName : fieldNames) {
+            columns.append(fieldName).append("=?, ");
+        }
+        sql += columns.substring(0, columns.lastIndexOf(", ")) + " WHERE id=?";
+        List<Object> paramList = new ArrayList<Object>();
+        paramList.addAll(fieldMap.values());
+        paramList.add(id);
+        Object[] params = paramList.toArray();
+
+        return executeUpdate(sql, params) == 1;
+    }
+
+    /**
+     * 删除实体
+     *
+     * @param entityClass
+     * @param id
+     * @param <T>
+     * @return
+     */
+    public static <T> boolean deleteEntity(Class<T> entityClass, long id) {
+        String sql = "DELETE FROM " + getTableName(entityClass) + " WHERE id=?";
+        return executeUpdate(sql, id) == 1;
     }
 
     /**
@@ -194,6 +255,12 @@ public final class DatabaseHelper {
         }
     }
 
+    /**
+     * 获取表名
+     *
+     * @param entityClass
+     * @return
+     */
     public static String getTableName(Class<?> entityClass) {
         return entityClass.getSimpleName();
     }

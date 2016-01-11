@@ -1,12 +1,9 @@
 package cn.chenlizhong.test.util;
 
-import cn.chenlizhong.util.JedisUtil;
+import cn.chenlizhong.sinno.util.JedisUtil;
 import com.google.common.collect.Maps;
 import org.apache.commons.collections4.CollectionUtils;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
@@ -28,18 +25,18 @@ public class JedisUtilTest {
     private static final Logger LOG = LoggerFactory.getLogger(JedisUtilTest.class);
     private Jedis jedis;
 
-    @Before
+    //    @Before
     public void init() {
         String host = "sinno01";
         int port = 6379;
-        String password = "clz619";
+        String password = "";
         jedis = JedisUtil.getJedis(host, port, password);
     }
 
     /**
      * test key
      */
-    @Test
+//    @Test
     public void testKey() {
 
         //值
@@ -106,7 +103,7 @@ public class JedisUtilTest {
         }
     }
 
-    @Test
+    //    @Test
     public void testString() {
         //追加一个值到key上
         jedis.append("msg", "a.");
@@ -154,7 +151,7 @@ public class JedisUtilTest {
     /**
      * 测试hashs
      */
-    @Test
+//    @Test
     public void testHashs() {
 
         //设置hash集book域author的值
@@ -220,7 +217,7 @@ public class JedisUtilTest {
     /**
      * 测试list
      */
-    @Test
+//    @Test
     public void testLists() {
 
         //修剪到指定范围内的清单
@@ -276,7 +273,7 @@ public class JedisUtilTest {
     /**
      * 测试集合sets
      */
-    @Test
+//    @Test
     public void testSets() {
         //添加一个或多个元素到集合
         jedis.sadd("class102", "小明", "小白");
@@ -355,7 +352,7 @@ public class JedisUtilTest {
 
     }
 
-    @Test
+    //    @Test
     public void testSortedSets() {
         jedis.zadd("zset", 1, "a");
         jedis.zadd("zset", 4, "d");
@@ -371,11 +368,13 @@ public class JedisUtilTest {
 
         //返回有序集key中成员member的排名，其中有序集成员按score值从大到小排列。排名以0为底，也就是说，score值最大的成员排名为0。
         //使用ZRANK命令可以获得成员按score值递增(从小到大)排列的排名。
-        LOG.info("zrevrank zset a :"+jedis.zrevrank("zset","a"));;
-        LOG.info("zrank zset a :"+jedis.zrank("zset","a"));;
+        LOG.info("zrevrank zset a :" + jedis.zrevrank("zset", "a"));
+        ;
+        LOG.info("zrank zset a :" + jedis.zrank("zset", "a"));
+        ;
     }
 
-    @After
+    //    @After
     public void destroy() {
         JedisUtil.closeJedis(jedis);
     }

@@ -1,4 +1,4 @@
-package cn.chenlizhong.util;
+package cn.chenlizhong.sinno.util;
 
 import com.google.common.collect.Maps;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;

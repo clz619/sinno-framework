@@ -1,6 +1,6 @@
 package cn.chenlizhong.service;
 
-import cn.chenlizhong.helper.DatabaseHelper;
+import cn.chenlizhong.sinno.helper.DatabaseHelper;
 import cn.chenlizhong.model.Customer;
 
 import java.util.List;

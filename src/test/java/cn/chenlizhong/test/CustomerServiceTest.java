@@ -1,11 +1,9 @@
 package cn.chenlizhong.test;
 
-import cn.chenlizhong.helper.DatabaseHelper;
 import cn.chenlizhong.model.Customer;
 import cn.chenlizhong.service.CustomService;
+import cn.chenlizhong.sinno.helper.DatabaseHelper;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 
 import java.util.List;
 
@@ -23,16 +21,16 @@ public class CustomerServiceTest {
         customService = new CustomService();
     }
 
-    @Before
-    public void init(){
+    //    @Before
+    public void init() {
         //TODO 初始化数据库
         DatabaseHelper.executeSqlFile("sql/customer_init.sql");
     }
 
-    @Test
-    public void getCustomerListTest(){
-        List<Customer> customerList=customService.getCustomerList();
-        Assert.assertEquals(2,customerList.size());
+    //    @Test
+    public void getCustomerListTest() {
+        List<Customer> customerList = customService.getCustomerList();
+        Assert.assertEquals(2, customerList.size());
     }
 
 

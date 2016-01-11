@@ -1,4 +1,4 @@
-package cn.chenlizhong.util;
+package cn.chenlizhong.sinno.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

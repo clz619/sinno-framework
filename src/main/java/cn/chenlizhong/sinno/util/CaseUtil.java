@@ -1,4 +1,4 @@
-package cn.chenlizhong.util;
+package cn.chenlizhong.sinno.util;
 
 import org.apache.commons.lang3.StringUtils;
 
