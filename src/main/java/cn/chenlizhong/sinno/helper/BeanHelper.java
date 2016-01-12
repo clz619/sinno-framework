@@ -33,6 +33,17 @@ public final class BeanHelper {
         return BEAN_MAP;
     }
 
+
+    /**
+     * 设置bean实例
+     *
+     * @param clazz
+     * @param obj
+     */
+    public static void setBean(Class<?> clazz, Object obj) {
+        BEAN_MAP.put(clazz, obj);
+    }
+
     /**
      * 获取bean实例
      *
