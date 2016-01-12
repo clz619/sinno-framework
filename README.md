@@ -17,3 +17,4 @@ __github:[sinno-framework](https://github.com/clz619/sinno-framework)__
 * 加载Controller
 * 初始化框架
 * 请求转发  
+* 动态代理实现aop特性
