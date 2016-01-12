@@ -1,9 +1,12 @@
 package cn.chenlizhong.sinno.helper;
 
 import cn.chenlizhong.sinno.annotation.Aspect;
+import cn.chenlizhong.sinno.annotation.Service;
+import cn.chenlizhong.sinno.annotation.Transaction;
 import cn.chenlizhong.sinno.proxy.AspectProxy;
 import cn.chenlizhong.sinno.proxy.Proxy;
 import cn.chenlizhong.sinno.proxy.ProxyManager;
+import cn.chenlizhong.sinno.proxy.TransactionProxy;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -71,6 +74,18 @@ public final class AopHelper {
     private static Map<Class<?>, Set<Class<?>>> createProxyMap() throws Exception {
         Map<Class<?>, Set<Class<?>>> proxyMap = Maps.newHashMap();
 
+        addAspectProxy(proxyMap);
+        addTransactionProxy(proxyMap);
+        return proxyMap;
+    }
+
+    /**
+     * 添加aspect代理
+     *
+     * @param proxyMap
+     * @throws Exception
+     */
+    private static void addAspectProxy(Map<Class<?>, Set<Class<?>>> proxyMap) throws Exception {
         //获取所有代理类
         Set<Class<?>> proxyClassSet = ClassHelper.getClassSetBySuper(AspectProxy.class);
 
@@ -82,7 +97,11 @@ public final class AopHelper {
                 proxyMap.put(proxyClass, targetClassSet);
             }
         }
-        return proxyMap;
+    }
+
+    private static void addTransactionProxy(Map<Class<?>, Set<Class<?>>> proxyMap) throws Exception {
+        Set<Class<?>> serviceClassSet = ClassHelper.getClassSetByAnnotation(Service.class);
+        proxyMap.put(TransactionProxy.class, serviceClassSet);
     }
 
     /**
